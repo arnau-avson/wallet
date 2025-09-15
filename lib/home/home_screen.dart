@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../auth/login.dart';
+import 'search_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -49,6 +50,21 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 
     // Si hay token, mostrar solo el contenido de la pantalla Home
+    int _selectedIndex = 0;
+    void _onItemTapped(int index) {
+      if (index == 0) {
+        // Ya estamos en Home
+        setState(() {
+          _selectedIndex = index;
+        });
+      } else if (index == 1) {
+        Navigator.of(
+          context,
+        ).pushReplacement(MaterialPageRoute(builder: (_) => SearchScreen()));
+      }
+      // Puedes añadir navegación para los otros iconos aquí
+    }
+
     return Scaffold(
       backgroundColor: Colors.black,
       body: Center(
@@ -78,6 +94,19 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.black,
+        selectedItemColor: Colors.amber,
+        unselectedItemColor: Colors.white,
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Buscar'),
+          BottomNavigationBarItem(icon: Icon(Icons.send), label: 'Enviar'),
+          BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Ajustes'),
+        ],
       ),
     );
   }

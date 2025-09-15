@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'login.dart';
 
 class VerifyRegistrationScreen extends StatelessWidget {
   @override
@@ -73,7 +74,12 @@ class VerifyRegistrationScreen extends StatelessWidget {
                       width: double.infinity,
                       height: 50,
                       child: ElevatedButton(
-                        onPressed: () {},
+                          onPressed: () {
+                            Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(builder: (_) => LoginScreen()),
+                              (route) => false,
+                            );
+                          },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: amarilloBanco,
                           foregroundColor: Colors.black,
