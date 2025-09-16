@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../auth/login.dart';
 import 'search_screen.dart';
 import 'wallet_bottom_nav_bar.dart';
+import 'transaction_detail_modal.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -276,7 +277,22 @@ class _HomeScreenState extends State<HomeScreen> {
                             leadingIcon: leadingIcon,
                             title: '$tipo ${cantidad.toStringAsFixed(8)} BTC',
                             subtitle: estado,
-                            onTap: () {},
+                            onTap: () {
+                              showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: false,
+                                backgroundColor: Colors.black,
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+                                ),
+                                builder: (context) => TransactionDetailModal(
+                                  amarilloBanco: amarilloBanco,
+                                  tipo: tipo,
+                                  cantidad: cantidad,
+                                  estado: estado,
+                                ),
+                              );
+                            },
                           );
                         },
                       ),
