@@ -12,16 +12,46 @@ class WalletBottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      selectedItemColor: Colors.amber,
-      unselectedItemColor: Colors.black,
-      currentIndex: currentIndex,
-      onTap: onTap,
-      items: const [
-        BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-        BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Buscar'),
-        BottomNavigationBarItem(icon: Icon(Icons.send), label: 'Enviar'),
-        BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Ajustes'),
+    return Row(
+      children: [
+        const Spacer(),
+        Container(
+          margin: const EdgeInsets.only(bottom: 9),
+          width: MediaQuery.of(context).size.width * 0.9,
+          decoration: BoxDecoration(
+            // color: Colors.white,
+            borderRadius: BorderRadius.circular(100),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.12),
+                blurRadius: 10,
+                offset: const Offset(0, -2),
+              ),
+            ],
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(100),
+            child: BottomNavigationBar(
+              // backgroundColor: Colors.white,
+              selectedItemColor: Colors.amber,
+              unselectedItemColor: const Color.fromARGB(255, 111, 182, 240),
+              type: BottomNavigationBarType.fixed,
+              currentIndex: currentIndex,
+              onTap: onTap,
+              items: const [
+                BottomNavigationBarItem(icon: Icon(Icons.home, size: 28), label: ''),
+                BottomNavigationBarItem(icon: Icon(Icons.search, size: 28), label: ''),
+                BottomNavigationBarItem(icon: Icon(Icons.send, size: 28), label: ''),
+                BottomNavigationBarItem(icon: Icon(Icons.settings, size: 28), label: ''),
+              ],
+              elevation: 0,
+              showUnselectedLabels: false,
+              showSelectedLabels: false,
+              iconSize: 28,
+            ),
+          ),
+        ),
+        const Spacer(),
       ],
     );
   }

@@ -35,6 +35,9 @@ class _HomeScreenState extends State<HomeScreen> {
     {"tipo": "En proceso", "cantidad": 0.01, "estado": "Pendiente"},
   ];
 
+  // Para el SearchScreen
+  final TextEditingController _searchController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -52,13 +55,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _onItemTapped(int index) {
-    if (index == 0) {
-      setState(() => _selectedIndex = index);
-    } else if (index == 1) {
-      Navigator.of(
-        context,
-      ).pushReplacement(MaterialPageRoute(builder: (_) => SearchScreen()));
-    }
+    setState(() {
+      _selectedIndex = index;
+    });
   }
 
   @override
@@ -82,9 +81,10 @@ class _HomeScreenState extends State<HomeScreen> {
       );
     }
 
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: Stack(
+    // Contenido de las páginas
+    final List<Widget> _pages = [
+      // Página principal (antes body de HomeScreen)
+      Stack(
         children: [
           // Halos sutiles en el fondo (amarillo con opacidad)
           Positioned(
@@ -105,7 +105,6 @@ class _HomeScreenState extends State<HomeScreen> {
               opacity: 0.05,
             ),
           ),
-
           SafeArea(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
@@ -151,7 +150,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                   const SizedBox(height: 18),
-
                   // Tarjeta de saldo (glass + borde amarillo)
                   ClipRRect(
                     borderRadius: BorderRadius.circular(20),
@@ -203,7 +201,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
-
                   // === NUEVOS BOTONES: ENVIAR / RECIBIR ===
                   const SizedBox(height: 16),
                   Row(
@@ -214,8 +211,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           icon: Icons.call_made, // salida
                           label: 'Enviar',
                           onPressed: () {
-                            // TODO: Navega a tu pantalla de envío
-                            // Navigator.push(context, MaterialPageRoute(builder: (_) => SendScreen()));
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                 content: Text('Enviar presionado'),
@@ -231,8 +226,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           icon: Icons.call_received, // entrada
                           label: 'Recibir',
                           onPressed: () {
-                            // TODO: Navega a tu pantalla de recepción
-                            // Navigator.push(context, MaterialPageRoute(builder: (_) => ReceiveScreen()));
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                 content: Text('Recibir presionado'),
@@ -245,7 +238,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   const SizedBox(height: 18),
                   // === FIN NUEVOS BOTONES ===
-
                   // Título historial
                   Row(
                     children: [
@@ -267,7 +259,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                   const SizedBox(height: 12),
-
                   // Lista de historial en cards
                   Expanded(
                     child: Scrollbar(
@@ -283,32 +274,38 @@ class _HomeScreenState extends State<HomeScreen> {
                           final String tipo = item['tipo'];
                           final double cantidad = item['cantidad'];
                           final String estado = item['estado'];
-
                           final IconData leadingIcon = switch (tipo) {
                             'Recibido' => Icons.call_received,
                             'Enviado' => Icons.call_made,
                             _ => Icons.hourglass_top,
                           };
-
                           return _HistoryCard(
                             amarillo: amarilloBanco,
                             leadingIcon: leadingIcon,
                             title: '$tipo ${cantidad.toStringAsFixed(8)} BTC',
                             subtitle: estado,
-                            // Solo amarillo/blanco/grises para mantener la línea visual
                             onTap: () {},
                           );
                         },
                       ),
                     ),
                   ),
-
                   const SizedBox(height: 10),
                 ],
               ),
             ),
           ),
         ],
+      ),
+      // Página de búsqueda
+      SearchScreen(controller: _searchController),
+    ];
+
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: _pages,
       ),
       bottomNavigationBar: WalletBottomNavBar(
         currentIndex: _selectedIndex,
