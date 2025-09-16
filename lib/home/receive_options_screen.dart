@@ -93,66 +93,80 @@ class _ReceiveOptionsScreenState extends State<ReceiveOptionsScreen> {
             )
           : Center(
               child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      '¿Quieres marcar lo que quieres recibir?',
-                      style: TextStyle(color: amarilloBanco, fontSize: 20, fontWeight: FontWeight.w600),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 30),
-                    SwitchListTile(
-                      value: _wantsToMark,
-                      onChanged: (val) => setState(() {
-                        _wantsToMark = val;
-                        _showQR = false;
-                      }),
-                      title: const Text('Marcar lo que quiero recibir', style: TextStyle(color: Colors.white)),
-                      activeColor: amarilloBanco,
-                    ),
-                    if (_wantsToMark) ...[
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                        child: TextField(
-                          controller: _controller,
-                          style: const TextStyle(color: Colors.white),
-                          decoration: InputDecoration(
-                            labelText: '¿Qué quieres recibir?',
-                            labelStyle: TextStyle(color: amarilloBanco),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: amarilloBanco),
-                              borderRadius: BorderRadius.circular(10),
+                child: FractionallySizedBox(
+                  widthFactor: 0.8,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Alinear verticalmente el texto y el switch
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              '¿Quieres marcar lo que quieres recibir?',
+                              style: TextStyle(color: amarilloBanco, fontSize: 20, fontWeight: FontWeight.w600),
+                              textAlign: TextAlign.start,
                             ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: amarilloBanco, width: 2),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            filled: true,
-                            fillColor: Colors.black,
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                           ),
+                          Switch(
+                            value: _wantsToMark,
+                            onChanged: (val) => setState(() {
+                              _wantsToMark = val;
+                              _showQR = false;
+                            }),
+                            activeColor: amarilloBanco,
+                          ),
+                        ],
+                      ),
+                      if (_wantsToMark) ...[
+                        const SizedBox(height: 24),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 0.0),
+                          child: TextField(
+                            controller: _controller,
+                            style: const TextStyle(color: Colors.white),
+                            decoration: InputDecoration(
+                              labelText: '¿Qué quieres recibir?',
+                              labelStyle: TextStyle(color: amarilloBanco),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: amarilloBanco),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: amarilloBanco, width: 2),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              filled: true,
+                              fillColor: Colors.black,
+                              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                            ),
+                          ),
+                        ),
+                      ],
+                      const SizedBox(height: 24),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            if (!_wantsToMark || (_wantsToMark && _controller.text.isNotEmpty)) {
+                              setState(() => _showQR = true);
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: amarilloBanco,
+                            foregroundColor: Colors.black,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            elevation: 3,
+                          ),
+                          child: const Text('Generar QR', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                         ),
                       ),
                     ],
-                    const SizedBox(height: 24),
-                    ElevatedButton(
-                      onPressed: () {
-                        if (!_wantsToMark || (_wantsToMark && _controller.text.isNotEmpty)) {
-                          setState(() => _showQR = true);
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: amarilloBanco,
-                        foregroundColor: Colors.black,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        elevation: 3,
-                      ),
-                      child: const Text('Generar QR', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ),
