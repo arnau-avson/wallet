@@ -17,12 +17,12 @@ class EditUsernameModal extends StatelessWidget {
     final TextEditingController controller = TextEditingController(text: initialValue);
     final Color amarilloBanco = const Color(0xFFF1C40F);
     return Container(
-      padding: const EdgeInsets.fromLTRB(24, 10, 24, 60),
+      padding: const EdgeInsets.fromLTRB(24, 15, 24, 60),
       decoration: const BoxDecoration(
-        color: Color(0xF2000000),
+        color: Color.fromARGB(221, 0, 0, 0),
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(32),
-          topRight: Radius.circular(32),
+          topLeft: Radius.circular(50),
+          topRight: Radius.circular(50),
         ),
       ),
       width: double.infinity,
@@ -44,14 +44,17 @@ class EditUsernameModal extends StatelessWidget {
                 ),
               ),
             ),
-            Text(
-              'Editar nombre',
-              style: TextStyle(
-                color: amarilloBanco,
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
+            Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: Text(
+                'Editar nombre',
+                style: TextStyle(
+                  color: amarilloBanco,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
             ),
             const SizedBox(height: 18),
             Row(
@@ -59,10 +62,10 @@ class EditUsernameModal extends StatelessWidget {
                 Expanded(
                   child: TextField(
                     controller: controller,
-                    style: const TextStyle(color: Colors.white),
+                    style: const TextStyle(color: Colors.white, fontSize: 20),
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: Colors.white.withOpacity(0.07),
+                      fillColor: const Color.fromARGB(255, 83, 83, 83),
                       border: OutlineInputBorder(
                         borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(12),
@@ -70,7 +73,7 @@ class EditUsernameModal extends StatelessWidget {
                           topRight: Radius.circular(0),
                           bottomRight: Radius.circular(0),
                         ),
-                        borderSide: BorderSide(color: amarilloBanco, width: 1),
+                        borderSide: BorderSide(color: amarilloBanco, width: 2),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: const BorderRadius.only(
@@ -79,7 +82,7 @@ class EditUsernameModal extends StatelessWidget {
                           topRight: Radius.circular(0),
                           bottomRight: Radius.circular(0),
                         ),
-                        borderSide: BorderSide(color: amarilloBanco.withOpacity(0.3), width: 1),
+                        borderSide: BorderSide(color: amarilloBanco, width: 2),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: const BorderRadius.only(
@@ -120,7 +123,7 @@ class EditUsernameModal extends StatelessWidget {
                       maximumSize: const Size(48, 48),
                       elevation: 0,
                     ),
-                    child: const Icon(Icons.check, color: Colors.white),
+                    child: const Icon(Icons.check, color: Colors.white, size: 20),
                   ),
                 ),
               ],
@@ -132,14 +135,3 @@ class EditUsernameModal extends StatelessWidget {
     );
   }
 }
-
-// USO: Para mostrar este modal como bottom sheet, llama desde tu widget:
-// showModalBottomSheet(
-//   context: context,
-//   isScrollControlled: true,
-//   backgroundColor: Colors.transparent,
-//   builder: (_) => EditUsernameModal(
-//     initialValue: ...,
-//     onSave: ...,
-//   ),
-// );

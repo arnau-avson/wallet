@@ -2,16 +2,34 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'components/edit_username_modal.dart';
 
-class SettingsScreen extends StatelessWidget {
+import 'components/currency_dropdown.dart';
+
+class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final Color amarilloBanco = const Color(0xFFF1C40F);
-    final Color rojoCerrar = Colors.redAccent.shade700;
-    final double glowRadius = 220;
-  String username = 'Usuario';
+  State<SettingsScreen> createState() => _SettingsScreenState();
+}
 
+class _SettingsScreenState extends State<SettingsScreen> {
+  final Color amarilloBanco = const Color(0xFFF1C40F);
+  final Color rojoCerrar = Colors.redAccent.shade700;
+  final double glowRadius = 220;
+  String username = 'Usuario';
+  String selectedCurrency = 'USD';
+  final List<String> currencies = [
+    'USD',
+    'EUR',
+    'GBP',
+    'JPY',
+    'CHF',
+    'AUD',
+    'CAD',
+  ];
+  bool showCurrencyDropdown = false;
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
       body: Stack(
@@ -68,7 +86,9 @@ class SettingsScreen extends StatelessWidget {
                                 backgroundColor: Colors.transparent,
                                 builder: (context) => Padding(
                                   padding: EdgeInsets.only(
-                                    bottom: MediaQuery.of(context).viewInsets.bottom,
+                                    bottom: MediaQuery.of(
+                                      context,
+                                    ).viewInsets.bottom,
                                   ),
                                   child: EditUsernameModal(
                                     initialValue: username,
@@ -132,16 +152,45 @@ class SettingsScreen extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              ListTile(
-                                leading: Icon(
-                                  Icons.currency_exchange,
-                                  color: amarilloBanco,
-                                ),
-                                title: const Text(
-                                  'Cambiar moneda de comparación',
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                                onTap: () {},
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  ListTile(
+                                    leading: Icon(
+                                      Icons.currency_exchange,
+                                      color: amarilloBanco,
+                                    ),
+                                    title: const Text(
+                                      'Cambiar moneda de comparación',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    // Sin trailing
+                                    onTap: () {
+                                      setState(() {
+                                        showCurrencyDropdown =
+                                            !showCurrencyDropdown;
+                                      });
+                                    },
+                                  ),
+                                  if (showCurrencyDropdown)
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 18.0,
+                                      ),
+                                      child: CurrencyDropdown(
+                                        selectedCurrency: selectedCurrency,
+                                        currencies: currencies,
+                                        onChanged: (value) {
+                                          if (value != null) {
+                                            setState(() {
+                                              selectedCurrency = value;
+                                              showCurrencyDropdown = false;
+                                            });
+                                          }
+                                        },
+                                      ),
+                                    ),
+                                ],
                               ),
                             ],
                           ),
