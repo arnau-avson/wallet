@@ -5,6 +5,7 @@ import 'components/edit_username_modal.dart';
 import 'components/currency_dropdown.dart';
 import 'manage_data_screen.dart';
 import 'change_pin_screens.dart';
+import 'change_password_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -330,7 +331,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   style: TextStyle(color: Colors.white),
                                 ),
                                 onTap: () {
-                                  // Aquí puedes enlazar la pantalla de cambiar password si la creas
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (_) => const ChangePasswordScreen(),
+                                    ),
+                                  );
                                 },
                               ),
                               ListTile(
