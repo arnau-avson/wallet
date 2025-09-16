@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'components/edit_username_modal.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -9,7 +10,7 @@ class SettingsScreen extends StatelessWidget {
     final Color amarilloBanco = const Color(0xFFF1C40F);
     final Color rojoCerrar = Colors.redAccent.shade700;
     final double glowRadius = 220;
-    String username = 'Usuario';
+  String username = 'Usuario';
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -60,7 +61,25 @@ class SettingsScreen extends StatelessWidget {
                               color: amarilloBanco,
                               size: 22,
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                backgroundColor: Colors.transparent,
+                                builder: (context) => Padding(
+                                  padding: EdgeInsets.only(
+                                    bottom: MediaQuery.of(context).viewInsets.bottom,
+                                  ),
+                                  child: EditUsernameModal(
+                                    initialValue: username,
+                                    onSave: (nuevoNombre) {
+                                      // Aquí puedes guardar el nuevo nombre
+                                      // Por ejemplo, usando setState en un StatefulWidget
+                                    },
+                                  ),
+                                ),
+                              );
+                            },
                             tooltip: 'Editar nombre',
                           ),
                         ],
