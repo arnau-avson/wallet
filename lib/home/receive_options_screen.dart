@@ -10,6 +10,7 @@ class ReceiveOptionsScreen extends StatefulWidget {
 }
 
 class _ReceiveOptionsScreenState extends State<ReceiveOptionsScreen> {
+  bool _inputInEur = true;
   bool _showQR = false;
   bool _wantsToMark = false;
   final String _publicAddress = '1A2b3C4d5E6f7G8h9I0jK1l2M3n4O5p6Q7r8S9t0';
@@ -122,26 +123,78 @@ class _ReceiveOptionsScreenState extends State<ReceiveOptionsScreen> {
                       ),
                       if (_wantsToMark) ...[
                         const SizedBox(height: 24),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 0.0),
-                          child: TextField(
-                            controller: _controller,
-                            style: const TextStyle(color: Colors.white),
-                            decoration: InputDecoration(
-                              labelText: '¿Qué quieres recibir?',
-                              labelStyle: TextStyle(color: amarilloBanco),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: amarilloBanco),
-                                borderRadius: BorderRadius.circular(10),
+                        Stack(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 40.0),
+                              child: TextField(
+                                controller: _controller,
+                                style: const TextStyle(color: Colors.white),
+                                keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                decoration: InputDecoration(
+                                  labelText: _inputInEur ? '¿Qué quieres recibir?' : '¿Cuánto BTC quieres recibir?',
+                                  labelStyle: TextStyle(color: amarilloBanco),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: amarilloBanco),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: amarilloBanco, width: 2),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  filled: true,
+                                  fillColor: Colors.black,
+                                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                                  suffixIcon: Padding(
+                                    padding: const EdgeInsets.only(right: 12.0),
+                                    child: Text(_inputInEur ? '€' : '₿', style: TextStyle(color: amarilloBanco, fontSize: 20, fontWeight: FontWeight.bold)),
+                                  ),
+                                  suffixIconConstraints: BoxConstraints(minWidth: 0, minHeight: 0),
+                                ),
                               ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: amarilloBanco, width: 2),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              filled: true,
-                              fillColor: Colors.black,
-                              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                             ),
+                            Positioned(
+                              right: 0,
+                              top: 0,
+                              bottom: 0,
+                              child: IconButton(
+                                icon: Icon(Icons.swap_vert, color: amarilloBanco, size: 28),
+                                onPressed: () {
+                                  setState(() {
+                                    _inputInEur = !_inputInEur;
+                                    _controller.text = '';
+                                  });
+                                },
+                                tooltip: 'Intercambiar moneda',
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 16),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Builder(
+                            builder: (context) {
+                              double tasa = 0.000025 + (0.00001 * (DateTime.now().millisecond % 10));
+                              double monto = double.tryParse(_controller.text.replaceAll(',', '.')) ?? 0;
+                              if (_inputInEur) {
+                                double btc = monto * tasa;
+                                return Text(
+                                  monto > 0
+                                      ? '${monto.toStringAsFixed(2)} € ≈ ${btc.toStringAsFixed(8)} BTC'
+                                      : '0.00 € ≈ 0.00000000 BTC',
+                                  style: TextStyle(color: Colors.white70, fontSize: 16, fontWeight: FontWeight.w500),
+                                );
+                              } else {
+                                double eur = monto / tasa;
+                                return Text(
+                                  monto > 0
+                                      ? '${monto.toStringAsFixed(8)} BTC ≈ ${eur.toStringAsFixed(2)} €'
+                                      : '0.00000000 BTC ≈ 0.00 €',
+                                  style: TextStyle(color: Colors.white70, fontSize: 16, fontWeight: FontWeight.w500),
+                                );
+                              }
+                            },
                           ),
                         ),
                       ],
