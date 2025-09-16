@@ -97,10 +97,9 @@ class _ReceiveOptionsScreenState extends State<ReceiveOptionsScreen> {
                 child: FractionallySizedBox(
                   widthFactor: 0.8,
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Alinear verticalmente el texto y el switch
+                      // Opciones arriba
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -198,7 +197,8 @@ class _ReceiveOptionsScreenState extends State<ReceiveOptionsScreen> {
                           ),
                         ),
                       ],
-                      const SizedBox(height: 24),
+                      const SizedBox(height: 40),
+                      // Botón abajo
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
