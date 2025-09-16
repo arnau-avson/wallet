@@ -19,20 +19,14 @@ class WalletBottomNavBar extends StatelessWidget {
           margin: const EdgeInsets.only(bottom: 9),
           width: MediaQuery.of(context).size.width * 0.9,
           decoration: BoxDecoration(
-            // color: Colors.white,
+            color: Colors.transparent,
             borderRadius: BorderRadius.circular(100),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.12),
-                blurRadius: 10,
-                offset: const Offset(0, -2),
-              ),
-            ],
+            boxShadow: [],
           ),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(100),
             child: BottomNavigationBar(
-              // backgroundColor: Colors.white,
+              backgroundColor: Colors.transparent,
               selectedItemColor: Colors.amber,
               unselectedItemColor: const Color.fromARGB(255, 111, 182, 240),
               type: BottomNavigationBarType.fixed,

@@ -21,7 +21,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final Color amarilloBanco = const Color(0xFFF1C40F);
 
-  // Datos demo
   final double bitcoinAmount = 0.5234;
   final double bitcoinToUsd = 27000.0; // Ejemplo de cambio
   late final double usdAmount = bitcoinAmount * bitcoinToUsd;
@@ -35,7 +34,6 @@ class _HomeScreenState extends State<HomeScreen> {
     {"tipo": "En proceso", "cantidad": 0.01, "estado": "Pendiente"},
   ];
 
-  // Para el SearchScreen
   final TextEditingController _searchController = TextEditingController();
 
   @override
@@ -81,12 +79,9 @@ class _HomeScreenState extends State<HomeScreen> {
       );
     }
 
-    // Contenido de las páginas
     final List<Widget> _pages = [
-      // Página principal (antes body de HomeScreen)
       Stack(
         children: [
-          // Halos sutiles en el fondo (amarillo con opacidad)
           Positioned(
             top: -120,
             left: -80,
@@ -237,8 +232,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                   const SizedBox(height: 18),
-                  // === FIN NUEVOS BOTONES ===
-                  // Título historial
                   Row(
                     children: [
                       Text(
@@ -259,7 +252,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                   const SizedBox(height: 12),
-                  // Lista de historial en cards
                   Expanded(
                     child: Scrollbar(
                       controller: _historialController,
@@ -297,7 +289,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      // Página de búsqueda
+
       SearchScreen(controller: _searchController),
     ];
 
