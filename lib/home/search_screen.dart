@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'wallet_bottom_nav_bar.dart';
 
 class SearchScreen extends StatefulWidget {
   @override
@@ -10,11 +11,16 @@ class _SearchScreenState extends State<SearchScreen> {
   final TextEditingController _searchController = TextEditingController();
 
   void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-    // Aquí podrías navegar a otras pantallas si lo deseas
+    if (index == 0) {
+      Navigator.of(context).pushReplacementNamed('/home');
+    } else {
+      setState(() {
+        _selectedIndex = index;
+      });
+    }
   }
+// Para navegación por nombre, asegúrate de tener la ruta '/home' definida en tu MaterialApp
+// Ejemplo: routes: {'/home': (context) => HomeScreen(), ...}
 
   @override
   Widget build(BuildContext context) {
@@ -43,17 +49,9 @@ class _SearchScreenState extends State<SearchScreen> {
           style: TextStyle(color: Colors.white, fontSize: 16),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Colors.amber,
-        unselectedItemColor: Colors.white,
+      bottomNavigationBar: WalletBottomNavBar(
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Buscar'),
-          BottomNavigationBarItem(icon: Icon(Icons.send), label: 'Enviar'),
-          BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Ajustes'),
-        ],
       ),
     );
   }
