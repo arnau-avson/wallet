@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'receive_options_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../auth/login.dart';
 import 'search_screen.dart';
@@ -224,9 +225,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           icon: Icons.call_received, // entrada
                           label: 'Recibir',
                           onPressed: () {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Recibir presionado'),
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => const ReceiveOptionsScreen(),
                               ),
                             );
                           },

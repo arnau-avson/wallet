@@ -12,7 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
   shared_preferences: ^2.2.2
-
+  qr_flutter: ^4.1.0
   cupertino_icons: ^1.0.8
 
 dev_dependencies:
