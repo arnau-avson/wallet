@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'components/edit_username_modal.dart';
 
 import 'components/currency_dropdown.dart';
+import 'manage_data_screen.dart';
+import 'change_pin_screens.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -313,7 +315,23 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   'Cambiar PIN',
                                   style: TextStyle(color: Colors.white),
                                 ),
-                                onTap: () {},
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (_) => const ChangePinStep1Screen(),
+                                    ),
+                                  );
+                                },
+                              ),
+                              ListTile(
+                                leading: Icon(Icons.password, color: amarilloBanco),
+                                title: const Text(
+                                  'Cambiar password',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                onTap: () {
+                                  // Aquí puedes enlazar la pantalla de cambiar password si la creas
+                                },
                               ),
                               ListTile(
                                 leading: Icon(
@@ -387,7 +405,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   'Gestionar mis datos',
                                   style: TextStyle(color: Colors.white),
                                 ),
-                                onTap: () {},
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => const ManageDataScreen(),
+                                    ),
+                                  );
+                                },
                               ),
                             ],
                           ),
