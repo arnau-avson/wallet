@@ -5,6 +5,7 @@ import '../auth/login.dart';
 import 'search_screen.dart';
 import 'wallet_bottom_nav_bar.dart';
 import 'transaction_detail_modal.dart';
+import 'package:wallet/home/settings_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -81,6 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 
     final List<Widget> _pages = [
+      // Pantalla principal
       Stack(
         children: [
           Positioned(
@@ -306,7 +308,12 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
 
+      // Pantalla de búsqueda
       SearchScreen(controller: _searchController),
+      // Pantalla de enviar (placeholder)
+      Center(child: Text('Enviar', style: TextStyle(color: Colors.white))),
+      // Pantalla de settings
+      const SettingsScreen(),
     ];
 
     return Scaffold(

@@ -342,6 +342,7 @@ class _NumKeyState extends State<_NumKey> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final isBackspace = widget.icon != null;
     return Padding(
       padding: const EdgeInsets.all(9),
       child: GestureDetector(
@@ -353,32 +354,41 @@ class _NumKeyState extends State<_NumKey> with SingleTickerProviderStateMixin {
         onLongPress: widget.onLongPress,
         child: ScaleTransition(
           scale: _scale,
-          child: Material(
-            color: Colors.black,
-            shape: const CircleBorder(),
-            child: Ink(
-              width: 76,
-              height: 76,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(color: widget.amarillo, width: 1.6),
-                boxShadow: [
-                  BoxShadow(
-                    color: widget.amarillo.withOpacity(0.10),
-                    blurRadius: 18,
+          child: isBackspace
+              ? SizedBox(
+                  width: 76,
+                  height: 76,
+                  child: Center(
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Icon(widget.icon, color: widget.amarillo, size: 28),
+                    ),
                   ),
-                ],
-              ),
-              child: InkWell(
-                customBorder: const CircleBorder(),
-                splashColor: widget.amarillo.withOpacity(0.15),
-                highlightColor: widget.amarillo.withOpacity(0.08),
-                onTap: widget.onTap,
-                onLongPress: widget.onLongPress,
-                child: Center(
-                  child: widget.icon != null
-                      ? Icon(widget.icon, color: widget.amarillo, size: 24)
-                      : Text(
+                )
+              : Material(
+                  color: Colors.black,
+                  shape: const CircleBorder(),
+                  child: Ink(
+                    width: 76,
+                    height: 76,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(color: widget.amarillo, width: 1.6),
+                      boxShadow: [
+                        BoxShadow(
+                          color: widget.amarillo.withOpacity(0.10),
+                          blurRadius: 18,
+                        ),
+                      ],
+                    ),
+                    child: InkWell(
+                      customBorder: const CircleBorder(),
+                      splashColor: widget.amarillo.withOpacity(0.15),
+                      highlightColor: widget.amarillo.withOpacity(0.08),
+                      onTap: widget.onTap,
+                      onLongPress: widget.onLongPress,
+                      child: Center(
+                        child: Text(
                           widget.label,
                           style: TextStyle(
                             color: widget.amarillo,
@@ -387,10 +397,10 @@ class _NumKeyState extends State<_NumKey> with SingleTickerProviderStateMixin {
                             letterSpacing: 0.2,
                           ),
                         ),
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          ),
         ),
       ),
     );
