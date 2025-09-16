@@ -198,26 +198,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             ),
                             const SizedBox(height: 8),
-                            Divider(
-                              color: Colors.white.withOpacity(0.08),
-                              height: 20,
-                            ),
-                            const SizedBox(height: 6),
-                            Row(
-                              children: [
-                                _Pill(
-                                  text: 'BTC',
-                                  icon: Icons.currency_bitcoin,
-                                  amarillo: amarilloBanco,
-                                ),
-                                const SizedBox(width: 10),
-                                _Pill(
-                                  text: 'Saldo disponible',
-                                  icon: Icons.check_circle,
-                                  amarillo: amarilloBanco,
-                                ),
-                              ],
-                            ),
                           ],
                         ),
                       ),
@@ -375,6 +355,12 @@ class _HistoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Detectar si el estado es 'Completado'
+    final String estado = subtitle.trim().toLowerCase();
+    final bool isCompletado = estado == 'completado';
+    final bool isPendiente = estado == 'pendiente';
+    final Color verde = Colors.greenAccent.shade400;
+    final Color naranja = Colors.orangeAccent.shade200;
     return Material(
       color: Colors.transparent,
       child: Ink(
@@ -435,14 +421,22 @@ class _HistoryCard extends StatelessWidget {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               border: Border.all(
-                                color: amarillo.withOpacity(0.4),
+                                color: isCompletado
+                                    ? verde
+                                    : isPendiente
+                                    ? naranja
+                                    : amarillo.withOpacity(0.4),
                                 width: 1,
                               ),
                             ),
                             child: Text(
                               subtitle,
                               style: TextStyle(
-                                color: Colors.white.withOpacity(0.9),
+                                color: isCompletado
+                                    ? verde
+                                    : isPendiente
+                                    ? naranja
+                                    : Colors.white.withOpacity(0.9),
                                 fontSize: 11.5,
                                 fontWeight: FontWeight.w600,
                                 letterSpacing: 0.2,
