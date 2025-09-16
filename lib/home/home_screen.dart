@@ -204,7 +204,47 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
 
-                  const SizedBox(height: 26),
+                  // === NUEVOS BOTONES: ENVIAR / RECIBIR ===
+                  const SizedBox(height: 16),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: _ActionButton(
+                          amarillo: amarilloBanco,
+                          icon: Icons.call_made, // salida
+                          label: 'Enviar',
+                          onPressed: () {
+                            // TODO: Navega a tu pantalla de envío
+                            // Navigator.push(context, MaterialPageRoute(builder: (_) => SendScreen()));
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Enviar presionado'),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: _ActionButton(
+                          amarillo: amarilloBanco,
+                          icon: Icons.call_received, // entrada
+                          label: 'Recibir',
+                          onPressed: () {
+                            // TODO: Navega a tu pantalla de recepción
+                            // Navigator.push(context, MaterialPageRoute(builder: (_) => ReceiveScreen()));
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Recibir presionado'),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 18),
+                  // === FIN NUEVOS BOTONES ===
 
                   // Título historial
                   Row(
@@ -449,7 +489,6 @@ class _HistoryCard extends StatelessWidget {
                   ),
                 ),
 
-                // Cantidad alineada a la derecha (amarillo)
                 const SizedBox(width: 10),
                 Icon(
                   Icons.chevron_right,
@@ -458,6 +497,50 @@ class _HistoryCard extends StatelessWidget {
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+// === WIDGET REUTILIZABLE PARA LOS BOTONES DE ACCIÓN ===
+class _ActionButton extends StatelessWidget {
+  final Color amarillo;
+  final IconData icon;
+  final String label;
+  final VoidCallback onPressed;
+
+  const _ActionButton({
+    required this.amarillo,
+    required this.icon,
+    required this.label,
+    required this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 52,
+      child: ElevatedButton.icon(
+        onPressed: onPressed,
+        icon: Icon(icon, size: 22, color: amarillo),
+        label: Text(
+          label,
+          style: TextStyle(
+            color: Colors.white.withOpacity(0.95),
+            fontWeight: FontWeight.w700,
+            letterSpacing: 0.2,
+          ),
+        ),
+        style: ElevatedButton.styleFrom(
+          elevation: 0,
+          backgroundColor: Colors.white.withOpacity(0.04),
+          foregroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+            side: BorderSide(color: amarillo.withOpacity(0.35), width: 1),
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
         ),
       ),
     );

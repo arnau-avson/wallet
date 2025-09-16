@@ -14,7 +14,7 @@ class WalletBottomNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       selectedItemColor: Colors.amber,
-      unselectedItemColor: Colors.white,
+      unselectedItemColor: Colors.black,
       currentIndex: currentIndex,
       onTap: onTap,
       items: const [
