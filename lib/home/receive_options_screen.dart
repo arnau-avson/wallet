@@ -2,10 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
-class ReceiveOptionsScreen extends StatelessWidget {
+class ReceiveOptionsScreen extends StatefulWidget {
   const ReceiveOptionsScreen({Key? key}) : super(key: key);
 
+  @override
+  State<ReceiveOptionsScreen> createState() => _ReceiveOptionsScreenState();
+}
+
+class _ReceiveOptionsScreenState extends State<ReceiveOptionsScreen> {
+  bool _showQR = false;
+  bool _wantsToMark = false;
   final String _publicAddress = '1A2b3C4d5E6f7G8h9I0jK1l2M3n4O5p6Q7r8S9t0';
+  final TextEditingController _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -21,66 +29,133 @@ class ReceiveOptionsScreen extends StatelessWidget {
         ),
         iconTheme: IconThemeData(color: amarilloBanco),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            FractionallySizedBox(
-              widthFactor: 0.8,
-              child: AspectRatio(
-                aspectRatio: 1,
-                child: QrImageView(
-                  data: _publicAddress,
-                  backgroundColor: Colors.white,
-                ),
-              ),
-            ),
-            const SizedBox(height: 32),
-            FractionallySizedBox(
-              widthFactor: 0.9,
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.grey.shade400, width: 1.2),
-                ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        _publicAddress,
-                        style: const TextStyle(
-                          color: Colors.black87,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16,
-                        ),
-                        overflow: TextOverflow.visible,
+      body: _showQR
+          ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  FractionallySizedBox(
+                    widthFactor: 0.8,
+                    child: AspectRatio(
+                      aspectRatio: 1,
+                      child: QrImageView(
+                        data: _publicAddress,
+                        backgroundColor: Colors.white,
                       ),
                     ),
-                    const SizedBox(width: 10),
-                    IconButton(
-                      icon: Icon(Icons.copy, color: Colors.grey.shade700),
-                      onPressed: () async {
-                        await Clipboard.setData(
-                          ClipboardData(text: _publicAddress),
-                        );
-                        if (context.mounted) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Dirección copiada al portapapeles'),
+                  ),
+                  const SizedBox(height: 32),
+                  FractionallySizedBox(
+                    widthFactor: 0.9,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: Colors.grey.shade400, width: 1.2),
+                      ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              _publicAddress,
+                              style: const TextStyle(
+                                color: Colors.black87,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16,
+                              ),
+                              overflow: TextOverflow.visible,
                             ),
-                          );
+                          ),
+                          const SizedBox(width: 10),
+                          IconButton(
+                            icon: Icon(Icons.copy, color: Colors.grey.shade700),
+                            onPressed: () async {
+                              await Clipboard.setData(
+                                ClipboardData(text: _publicAddress),
+                              );
+                              if (context.mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('Dirección copiada al portapapeles'),
+                                  ),
+                                );
+                              }
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )
+          : Center(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      '¿Quieres marcar lo que quieres recibir?',
+                      style: TextStyle(color: amarilloBanco, fontSize: 20, fontWeight: FontWeight.w600),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 30),
+                    SwitchListTile(
+                      value: _wantsToMark,
+                      onChanged: (val) => setState(() {
+                        _wantsToMark = val;
+                        _showQR = false;
+                      }),
+                      title: const Text('Marcar lo que quiero recibir', style: TextStyle(color: Colors.white)),
+                      activeColor: amarilloBanco,
+                    ),
+                    if (_wantsToMark) ...[
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                        child: TextField(
+                          controller: _controller,
+                          style: const TextStyle(color: Colors.white),
+                          decoration: InputDecoration(
+                            labelText: '¿Qué quieres recibir?',
+                            labelStyle: TextStyle(color: amarilloBanco),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: amarilloBanco),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: amarilloBanco, width: 2),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            filled: true,
+                            fillColor: Colors.black,
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                          ),
+                        ),
+                      ),
+                    ],
+                    const SizedBox(height: 24),
+                    ElevatedButton(
+                      onPressed: () {
+                        if (!_wantsToMark || (_wantsToMark && _controller.text.isNotEmpty)) {
+                          setState(() => _showQR = true);
                         }
                       },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: amarilloBanco,
+                        foregroundColor: Colors.black,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        elevation: 3,
+                      ),
+                      child: const Text('Generar QR', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                     ),
                   ],
                 ),
               ),
             ),
-          ],
-        ),
-      ),
     );
+    }
   }
-}
